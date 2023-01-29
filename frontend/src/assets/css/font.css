@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "Cormorant";
+  src: url("../fonts/Cormorant-Regular.otf");
+}
+
+@font-face {
+  font-family: "Cormorant Bold";
+  src: url("../fonts/Cormorant-Bold.otf");
+}
+
+@font-face {
+  font-family: "Cormorant Bold Italic";
+  src: url("../fonts/Cormorant-BoldItalic.otf");
+}
+
+@font-face {
+  font-family: "Cormorant Italic";
+  src: url("../fonts/Cormorant-Italic.otf");
+}
