@@ -19,6 +19,9 @@ export default {
   methods: {
     async openFileDialog() {
       this.epwFile = await rpc.app.OpenFileDialog("Select weather file")
+      // if (this.epwFile != '') {
+      //   this.epw = rpc.epw.Parse(this.epwFile)
+      // }
     }
   }
 }
