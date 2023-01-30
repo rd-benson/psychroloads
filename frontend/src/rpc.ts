@@ -1,9 +1,9 @@
 import * as app from '@/wailsjs/go/main/App'
 import * as FileSystemService from '@/wailsjs/go/services/FileSystemService'
-import * as epw from '@/wailsjs/go/services/EPW'
+import * as EPWService from '@/wailsjs/go/services/EPWService'
 import { WindowSetTitle, EventsOnMultiple } from '@/wailsjs/runtime'
 
-const rpc = { app, FileSystemService, epw, on, setPageTitle }
+const rpc = { app, FileSystemService, EPWService, on, setPageTitle }
 
 function on(event: string, callback: (...data: any) => void) {
     EventsOnMultiple(event, callback, -1)

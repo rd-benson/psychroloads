@@ -4,7 +4,6 @@ import (
 	"embed"
 	"log"
 
-	"github.com/rdbenson/psychroloads/backend/services"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -23,9 +22,6 @@ var icon []byte
 func main() {
 	// Create an instance of the app structure
 	app := NewApp()
-
-	// Create an instance of the EPW structure
-	epw := services.NewEPW()
 
 	// Create application with options
 	err := wails.Run(&options.App{
@@ -56,7 +52,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 			app.FileSystemService,
-			epw,
+			app.EPWService,
 		},
 		// Windows platform specific options
 		Windows: &windows.Options{

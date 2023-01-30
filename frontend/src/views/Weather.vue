@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import rpc from '@/rpc';
-import { def } from '@vue/shared';
-
-
-
-
+import { services } from '@/wailsjs/go/models'
 </script>
 
 <script lang="ts">
@@ -13,15 +9,15 @@ export default {
   data() {
     return {
       epwFile: '',
-      epw: rpc.epw
+      epw: new(services.EPW),
+      header: '',
     }
   },
   methods: {
     async openFileDialog() {
       this.epwFile = await rpc.app.OpenFileDialog("Select weather file")
-      // if (this.epwFile != '') {
-      //   this.epw = rpc.epw.Parse(this.epwFile)
-      // }
+      this.epw = await rpc.EPWService.Parse(this.epwFile)
+      this.header = await rpc.EPWService.Header(this.epw)
     }
   }
 }
@@ -31,65 +27,26 @@ export default {
 <template>
   <!-- Information -->
   <div class="content">
-    <p @click="openFileDialog">choose file</p>
-    <p v-if="(epwFile != '')">{{ epwFile.slice(0,50) }} </p>
+    <div>
+      <p v-if="(epwFile == '')">no epw loaded</p>
+      <button @click="openFileDialog">choose file</button>
+    </div>
+    <p v-if="(epwFile != '')">{{ header }}</p>
   </div>
 </template>
 
 <style lang="scss">
-.about {
-  .title {
-    margin: 30px auto 10px;
-    font-size: 38px;
-    color: #a150b5;
-    text-align: center;
+.content {
+  display: flex;
+  flex-direction: column;
+  p, button {
+    width: fit-content;
+    padding: 2pt 10pt;
   }
-
-  .content {
-    position: relative;
-    margin: 36px 20px;
-
-    .comeon {
-      position: absolute;
-      left: 26px;
-      top: 38px;
-      max-width: 66%;
-
-      img {
-        width: 220px;
-        height: 180px;
-      }
-    }
-
-    .info {
-      margin: 0 0 0 33%;
-      font-size: 24px;
-      text-align: left;
-
-      .info-item {
-        margin-bottom: 10px;
-
-        .name {
-          line-height: 40px;
-          font-size: 28px;
-          color: #6d6363;
-        }
-
-        .link {
-          line-height: 30px;
-          font-size: 20px;
-          color: #5f6c86;
-        }
-      }
-    }
+  button {
+    background: var(--light2);
+    border-radius: 4pt;
   }
-
-  .thank {
-    height: 68px;
-    line-height: 68px;
-    margin: 36px auto;
-    text-align: center;
-    font-size: 40px;
-  }
+ 
 }
 </style>

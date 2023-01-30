@@ -20,6 +20,7 @@ var (
 type App struct {
 	ctx               context.Context
 	FileSystemService *services.FileSystemService
+	EPWService        *services.EPWService
 }
 
 // NewApp creates a new App application struct
@@ -27,6 +28,7 @@ type App struct {
 func NewApp() *App {
 	return &App{
 		FileSystemService: services.NewFileSystemService(),
+		EPWService:        services.NewEPWService(),
 	}
 }
 
@@ -36,6 +38,7 @@ func (app *App) startup(ctx context.Context) {
 	// Perform your setup here
 	app.ctx = ctx
 	app.FileSystemService.Ctx = ctx
+	app.EPWService.Ctx = ctx
 }
 
 // domReady is called after the front-end dom has been loaded
