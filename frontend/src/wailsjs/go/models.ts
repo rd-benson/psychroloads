@@ -1,8 +1,8 @@
 export namespace services {
 	
 	export class EPW {
-	    station_location?: string;
-	    state?: string;
+	    city?: string;
+	    region?: string;
 	    country?: string;
 	    source?: string;
 	    station_id?: string;
@@ -52,8 +52,8 @@ export namespace services {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.station_location = source["station_location"];
-	        this.state = source["state"];
+	        this.city = source["city"];
+	        this.region = source["region"];
 	        this.country = source["country"];
 	        this.source = source["source"];
 	        this.station_id = source["station_id"];

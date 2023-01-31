@@ -2,9 +2,7 @@ package services
 
 import (
 	"bufio"
-	"bytes"
 	"context"
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -67,8 +65,8 @@ func parseWeatherCodes(weatherCodeString string) weatherCode {
 */
 
 type EPW struct {
-	StationLocation                       string    `json:"station_location,omitempty"`
-	State                                 string    `json:"state,omitempty"`
+	City                                  string    `json:"city,omitempty"`
+	Region                                string    `json:"region,omitempty"`
 	Country                               string    `json:"country,omitempty"`
 	Source                                string    `json:"source,omitempty"`
 	StationID                             string    `json:"station_id,omitempty"`
@@ -122,7 +120,7 @@ func NewEPWService() *EPWService {
 	return &EPWService{}
 }
 
-func (fs *EPWService) Parse(fileName string) (*EPW, error) {
+func (epws *EPWService) Parse(fileName string) (*EPW, error) {
 	epw := &EPW{}
 	file, err := os.Open(fileName)
 	check(err)
@@ -133,11 +131,11 @@ func (fs *EPWService) Parse(fileName string) (*EPW, error) {
 	// parse header (first line of EPW)
 	scanner.Scan()
 	header := strings.Split(scanner.Text(), ",")
-	epw.StationID = header[1]
-	epw.StationLocation = header[2]
-	epw.State = header[3]
-	epw.Country = header[4]
-	epw.Source = header[5]
+	epw.City = header[1]
+	epw.Region = header[2]
+	epw.Country = header[3]
+	epw.Source = header[4]
+	epw.StationID = header[5]
 	epw.Latitude = ParseFloat32(header[6])
 	epw.Longitude = ParseFloat32(header[7])
 	epw.TimeZone = header[8]
@@ -188,27 +186,4 @@ func (fs *EPWService) Parse(fileName string) (*EPW, error) {
 		epw.LiquidPrecipitationQuantity = append(epw.LiquidPrecipitationQuantity, ParseFloat32(data[34]))
 	}
 	return epw, err
-}
-
-func createKeyValuePairs(m map[string]string) string {
-	b := new(bytes.Buffer)
-	for key, value := range m {
-		fmt.Fprintf(b, "%s=\"%s\"\n", key, value)
-	}
-	return b.String()
-}
-
-func (fs *EPWService) Header(epw EPW) string {
-	h := make(map[string]string)
-	h["station location"] = epw.StationLocation
-	h["state"] = epw.State
-	h["country"] = epw.Country
-	h["source"] = epw.Source
-	h["station ID"] = epw.StationID
-	h["latitude"] = fmt.Sprintf("%.2f", epw.Latitude)
-	h["longitude"] = fmt.Sprintf("%.2f", epw.Longitude)
-	h["time zone"] = epw.TimeZone
-	h["elevation"] = epw.Elevation
-
-	return createKeyValuePairs(h)
 }

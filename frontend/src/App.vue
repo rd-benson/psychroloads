@@ -19,8 +19,10 @@ const routes: string[] = router.getRoutes().map((route) => {
 
 <template>
   <!-- Menu -->
-  <div class="menu">
-    <Item v-for="route in routes" :name="route" />
+  <div class="menu-container">
+    <div class="menu">
+      <Item v-for="route in routes" :name="route" />
+    </div>
   </div>
   <!-- Page -->
   <div class="view">
@@ -32,11 +34,7 @@ const routes: string[] = router.getRoutes().map((route) => {
 @import url("@/assets/css/reset.css");
 @import url("@/assets/css/font.css");
 @import url("@/assets/css/colour.css");
-
-html {
-  width: 100%;
-  height: 100%;
-}
+@import url("@/assets/css/app.scss");
 
 body {
   width: 100%;
@@ -49,21 +47,27 @@ body {
 
 #app {
   position: absolute;
-  min-width: 500px;
-  max-width: 100%;
+  width: 100%;
   height: 100%;
   background-color: var(--light1);
   overflow: hidden;
 }
 
+.menu-container {
+  position: absolute;
+  margin: 0;
+  width: var(--menu-width);
+  height: 100%;
+}
 .menu {
   position: absolute;
   top: 0;
   left: 0;
-  min-width: 100px;
+  min-width: var(--menu-width);
   height: 100%;
   padding: 10px 10px;
-  background-color: var(--light2);
+  background-color: var(--light);
+  box-shadow: 0px 0px 5px var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -83,11 +87,8 @@ body {
 
 .view {
   position: absolute;
-  top: 0px;
-  left: 100px;
-  right: 0;
-  bottom: 0;
-  padding: 10px 10px;
-  overflow: hidden;
+  margin: 0;
+  margin-left: var(--menu-width);
+  width: calc(100vw - var(--menu-width));
 }
 </style>
